@@ -17,8 +17,9 @@ Parts of that base code (the helper scripts with `/home/irlab/...` paths and the
 look like they were adapted from an earlier RecSys Challenge 2018 implementation. I could not identify its original
 author. `verify submission.ipynb` is the challenge's `verify_submission.py` format checker, run in a notebook.
 
-My change is the Jaccard-similarity scoring described below. If you are one of the original authors and want the
-credit worded differently, please open an issue.
+I used this repository to study and run his approach while learning recommender systems; the method and the code are
+his, and I don't claim either. If you are one of the original authors and want the credit worded differently, please
+open an issue.
 
 ## How it works
 
@@ -37,17 +38,17 @@ credit worded differently, please open an issue.
 
 Playlists without a title skip step 3 (that call is commented out), so their list is almost entirely popular tracks.
 
-## What I changed
+## Scoring
 
-The original scoring, still in the notebook as commented-out lines, gave every track of a similar playlist a
-popularity weight:
+The notebook contains two scoring variants. The earlier one, still there as commented-out lines, gives every track
+of a similar playlist a popularity weight:
 
 ```
 score = (artist share + album share + track share) / (1 + position in playlist)
 ```
 
-where each share is the item's count divided by the total count from `personal_stats.py`. I replaced it with a
-weighted Jaccard similarity between a similar playlist and the reference playlist:
+where each share is the item's count divided by the total count from `personal_stats.py`. The active variant uses
+a weighted Jaccard similarity between a similar playlist and the reference playlist:
 
 ```
 score = (1 + 0.5 * J(tracks) + 0.25 * J(artists) + 0.25 * J(albums)) / (1 + J(title))
